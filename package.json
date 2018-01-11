@@ -1,0 +1,52 @@
+{
+	"name": "electron-serve",
+	"version": "0.0.0",
+	"description": "Static file serving for Electron apps",
+	"license": "MIT",
+	"repository": "sindresorhus/electron-serve",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"scripts": {
+		"test": "xo && cd test && ava"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"electron",
+		"serve",
+		"serving",
+		"server",
+		"static",
+		"file",
+		"dev",
+		"development",
+		"react",
+		"router",
+		"web",
+		"app",
+		"history",
+		"pushstate",
+		"replacestate",
+		"href",
+		"url"
+	],
+	"dependencies": {
+		"pify": "^3.0.0"
+	},
+	"devDependencies": {
+		"ava": "*",
+		"electron": "^1.7.10",
+		"spectron": "^3.7.2",
+		"xo": "*"
+	},
+	"xo": {
+		"envs": [
+			"node",
+			"browser"
+		]
+	}
+}
