@@ -47,7 +47,11 @@ module.exports = options => {
 	electron.protocol.registerStandardSchemes([options.scheme], {secure: true});
 
 	electron.app.on('ready', () => {
-		electron.protocol.registerFileProtocol(options.scheme, handler, error => {
+		const ses = options.partition ?
+			electron.session.fromPartition(options.partition) :
+			electron.session.defaultSession;
+
+		ses.protocol.registerFileProtocol(options.scheme, handler, error => {
 			if (error) {
 				throw error;
 			}

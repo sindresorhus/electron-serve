@@ -50,6 +50,11 @@ Default: `app`
 
 Custom scheme. For example, `foo` results in your `directory` being available at `foo://-`.
 
+#### partition
+
+Type: `string`<br>
+
+The partition the protocol should be installed to, if you're not using electron's default partition.
 
 ## Related
 
