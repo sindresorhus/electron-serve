@@ -2,8 +2,8 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const electron = require('electron');
 const util = require('util');
+const electron = require('electron');
 
 const stat = util.promisify(fs.stat);
 
