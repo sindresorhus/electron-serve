@@ -34,8 +34,6 @@
 		"href",
 		"url"
 	],
-	"dependencies": {
-	},
 	"devDependencies": {
 		"ava": "*",
 		"electron": "^1.7.10",
