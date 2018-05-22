@@ -2,12 +2,10 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const util = require('util');
 const electron = require('electron');
-const pify = require('pify');
 
-// TODO: When Electron 1.8 stable is out
-// - const stat = util.promisify(fs.stat);
-const stat = pify(fs.stat);
+const stat = util.promisify(fs.stat);
 
 const getPath = async pth => {
 	try {
