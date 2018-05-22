@@ -16,7 +16,7 @@ test.afterEach.always(async t => {
 });
 
 test('serves directory index', async t => {
-	const client = t.context.spectron.client;
+	const {client} = t.context.spectron;
 	await client.waitUntilWindowLoaded();
 	await client.waitUntilTextExists('h1', '🦄', 5000);
 	t.pass();
