@@ -54,7 +54,8 @@ Custom scheme. For example, `foo` results in your `directory` being available at
 
 Type: `string`<br>
 
-The partition the protocol should be installed to, if you're not using electron's default partition.
+The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) the protocol should be installed to, if you're not using Electron's default partition.
+
 
 ## Related
 
