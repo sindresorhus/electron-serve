@@ -53,6 +53,7 @@ Custom scheme. For example, `foo` results in your `directory` being available at
 #### partition
 
 Type: `string`<br>
+Default: [`electron.session.defaultSession`](https://electronjs.org/docs/api/session#sessiondefaultsession)
 
 The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) the protocol should be installed to, if you're not using Electron's default partition.
 
