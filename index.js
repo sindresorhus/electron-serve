@@ -42,8 +42,16 @@ module.exports = options => {
 		});
 	};
 
-	electron.protocol.registerStandardSchemes([options.scheme], {secure: true});
-
+	if (electron.protocol.registerStandardSchemes) {
+		// Electron <= 4.x
+		electron.protocol.registerStandardSchemes([options.scheme], { secure: true });
+	} else {
+		// Electron >= 5.x
+		electron.protocol.registerSchemesAsPrivileged([
+			{ scheme: options.scheme, privileges: { secure: true } }
+		])
+	}
+	
 	electron.app.on('ready', () => {
 		const session = options.partition ?
 			electron.session.fromPartition(options.partition) :
