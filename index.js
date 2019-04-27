@@ -18,7 +18,7 @@ const getPath = async pth => {
 		if (result.isDirectory()) {
 			return getPath(path.join(pth, 'index.html'));
 		}
-	} catch (err) {}
+	} catch (error) {}
 };
 
 module.exports = options => {
@@ -44,14 +44,14 @@ module.exports = options => {
 
 	if (electron.protocol.registerStandardSchemes) {
 		// Electron <= 4.x
-		electron.protocol.registerStandardSchemes([options.scheme], { secure: true });
+		electron.protocol.registerStandardSchemes([options.scheme], {secure: true});
 	} else {
 		// Electron >= 5.x
 		electron.protocol.registerSchemesAsPrivileged([
-			{ scheme: options.scheme, privileges: { secure: true } }
-		])
+			{scheme: options.scheme, privileges: {secure: true}}
+		]);
 	}
-	
+
 	electron.app.on('ready', () => {
 		const session = options.partition ?
 			electron.session.fromPartition(options.partition) :
