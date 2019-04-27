@@ -48,7 +48,7 @@ module.exports = options => {
 	} else {
 		// Electron >= 5.x
 		electron.protocol.registerSchemesAsPrivileged([
-			{scheme: options.scheme, privileges: {secure: true,standard:true}}
+			{scheme: options.scheme, privileges: {secure: true, standard: true}}
 		]);
 	}
 
