@@ -1,24 +1,23 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
-const util = require('util');
+const {promisify} = require('util');
 const electron = require('electron');
 
-const stat = util.promisify(fs.stat);
+const stat = promisify(fs.stat);
 
-const getPath = async pth => {
+const getPath = async path_ => {
 	try {
-		const result = await stat(pth);
+		const result = await stat(path_);
 
 		if (result.isFile()) {
-			return pth;
+			return path_;
 		}
 
 		if (result.isDirectory()) {
-			return getPath(path.join(pth, 'index.html'));
+			return getPath(path.join(path_, 'index.html'));
 		}
-	} catch (error) {}
+	} catch (_) {}
 };
 
 module.exports = options => {
@@ -35,7 +34,7 @@ module.exports = options => {
 
 	const handler = async (request, callback) => {
 		const indexPath = path.join(options.directory, 'index.html');
-		const filePath = path.join(options.directory, new url.URL(request.url).pathname);
+		const filePath = path.join(options.directory, new URL(request.url).pathname);
 
 		callback({
 			path: (await getPath(filePath)) || indexPath
@@ -43,16 +42,24 @@ module.exports = options => {
 	};
 
 	if (electron.protocol.registerStandardSchemes) {
-		// Electron <= 4.x
+		// Electron <=4
 		electron.protocol.registerStandardSchemes([options.scheme], {secure: true});
 	} else {
-		// Electron >= 5.x
+		// Electron >=5
 		electron.protocol.registerSchemesAsPrivileged([
-			{scheme: options.scheme, privileges: {secure: true, standard: true}}
+			{
+				scheme: options.scheme,
+				privileges: {
+					secure: true,
+					standard: true
+				}
+			}
 		]);
 	}
 
-	electron.app.on('ready', () => {
+	(async () => {
+		await electron.app.whenReady();
+
 		const session = options.partition ?
 			electron.session.fromPartition(options.partition) :
 			electron.session.defaultSession;
@@ -62,9 +69,9 @@ module.exports = options => {
 				throw error;
 			}
 		});
-	});
+	})();
 
-	return win => {
-		win.loadURL(`${options.scheme}://-`);
+	return async win => {
+		await win.loadURL(`${options.scheme}://-`);
 	};
 };

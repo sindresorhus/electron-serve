@@ -20,15 +20,17 @@ const serve = require('electron-serve');
 
 const loadURL = serve({directory: 'renderer'});
 
-app.on('ready', () => {
+(async () => {
+	await app.whenReady();
+
 	mainWindow = new BrowserWindow();
 
-	loadURL(mainWindow);
+	await loadURL(mainWindow);
 
 	// The above is equivalent to this:
-	mainWindow.loadURL('app://-');
+	await mainWindow.loadURL('app://-');
 	// The `-` is just the required hostname
-});
+})();
 ```
 
 
@@ -36,21 +38,25 @@ app.on('ready', () => {
 
 ### serve(options)
 
-#### directory
+#### options
+
+Type: `object`
+
+##### directory
 
 *Required*<br>
 Type: `string`
 
 The directory to serve, relative to the app root directory.
 
-#### scheme
+##### scheme
 
 Type: `string`<br>
 Default: `app`
 
 Custom scheme. For example, `foo` results in your `directory` being available at `foo://-`.
 
-#### partition
+##### partition
 
 Type: `string`<br>
 Default: [`electron.session.defaultSession`](https://electronjs.org/docs/api/session#sessiondefaultsession)

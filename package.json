@@ -35,10 +35,10 @@
 		"url"
 	],
 	"devDependencies": {
-		"ava": "*",
-		"electron": "^1.7.10",
-		"spectron": "^3.7.2",
-		"xo": "*"
+		"ava": "^1.4.1",
+		"electron": "^3.0.0",
+		"spectron": "^5.0.0",
+		"xo": "^0.24.0"
 	},
 	"xo": {
 		"envs": [
