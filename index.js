@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const {promisify} = require('util');
 const electron = require('electron');
+const mime = require('mime');
 
 const stat = promisify(fs.stat);
 
@@ -35,9 +36,20 @@ module.exports = options => {
 	const handler = async (request, callback) => {
 		const indexPath = path.join(options.directory, 'index.html');
 		const filePath = path.join(options.directory, new URL(request.url).pathname);
+		const pathName = (await getPath(filePath)) || indexPath;
 
-		callback({
-			path: (await getPath(filePath)) || indexPath
+		fs.readFile(pathName, (error, data) => {
+			if (error) {
+				throw error;
+			}
+
+			const extension = path
+				.extname(pathName)
+				.toLowerCase()
+				.substr(1);
+			const mimeType = mime.getType(extension);
+
+			callback({mimeType, data});
 		});
 	};
 
@@ -64,7 +76,7 @@ module.exports = options => {
 			electron.session.fromPartition(options.partition) :
 			electron.session.defaultSession;
 
-		session.protocol.registerFileProtocol(options.scheme, handler, error => {
+		session.protocol.registerBufferProtocol(options.scheme, handler, error => {
 			if (error) {
 				throw error;
 			}

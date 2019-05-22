@@ -45,5 +45,8 @@
 			"node",
 			"browser"
 		]
+	},
+	"dependencies": {
+		"mime": "^2.4.3"
 	}
 }
