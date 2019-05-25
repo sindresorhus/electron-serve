@@ -34,7 +34,7 @@ module.exports = options => {
 
 	const handler = async (request, callback) => {
 		const indexPath = path.join(options.directory, 'index.html');
-		const filePath = path.join(options.directory, new URL(request.url).pathname);
+		const filePath = path.join(options.directory, decodeURIComponent(new URL(request.url).pathname));
 
 		callback({
 			path: (await getPath(filePath)) || indexPath
