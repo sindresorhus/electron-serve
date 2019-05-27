@@ -10,7 +10,7 @@
 		"url": "sindresorhus.com"
 	},
 	"scripts": {
-		"test": "xo && cd test && ava"
+		"test": "xo && tsd-check && cd test && ava"
 	},
 	"files": [
 		"index.js",
@@ -39,12 +39,16 @@
 		"ava": "^1.4.1",
 		"electron": "^3.0.0",
 		"spectron": "^5.0.0",
+		"tsd-check": "^0.6.0",
 		"xo": "^0.24.0"
 	},
 	"xo": {
 		"envs": [
 			"node",
 			"browser"
+		],
+		"ignores": [
+			"*.ts"
 		]
 	}
 }
