@@ -35,10 +35,12 @@ Static file serving for Electron apps.
 
 @example
 ```
-const {app, BrowserWindow} = require('electron');
-const serve = require('electron-serve');
+import {app, BrowserWindow} from 'electron';
+import serve = require('electron-serve');
 
 const loadURL = serve({directory: 'renderer'});
+
+let mainWindow;
 
 (async () => {
 	await app.whenReady();
