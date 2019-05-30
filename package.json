@@ -10,10 +10,11 @@
 		"url": "sindresorhus.com"
 	},
 	"scripts": {
-		"test": "xo && cd test && ava"
+		"test": "xo && cd test && ava && tsd"
 	},
 	"files": [
-		"index.js"
+		"index.js",
+		"index.d.ts"
 	],
 	"keywords": [
 		"electron",
@@ -38,6 +39,7 @@
 		"ava": "^1.4.1",
 		"electron": "^3.0.0",
 		"spectron": "^5.0.0",
+		"tsd": "^0.7.3",
 		"xo": "^0.24.0"
 	},
 	"xo": {
