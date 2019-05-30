@@ -1,3 +1,6 @@
+/// <reference lib="dom"/>
+/// <reference types="electron"/>
+/// <reference types="node"/>
 import {BrowserWindow} from 'electron';
 
 declare namespace electronServe {

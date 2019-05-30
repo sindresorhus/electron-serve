@@ -11,6 +11,8 @@ Normally you would just use `win.loadURL('file://…')`, but that doesn't work w
 $ npm install electron-serve
 ```
 
+*Requires Electron 3 or later.*
+
 
 ## Usage
 
@@ -19,6 +21,8 @@ const {app, BrowserWindow} = require('electron');
 const serve = require('electron-serve');
 
 const loadURL = serve({directory: 'renderer'});
+
+let mainWindow;
 
 (async () => {
 	await app.whenReady();
@@ -72,8 +76,3 @@ The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpart
 - [electron-context-menu](https://github.com/sindresorhus/electron-context-menu) - Context menu for your Electron app
 - [electron-dl](https://github.com/sindresorhus/electron-dl) - Simplified file downloads for your Electron app
 - [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)
