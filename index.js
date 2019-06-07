@@ -6,6 +6,9 @@ const electron = require('electron');
 
 const stat = promisify(fs.stat);
 
+// See https://cs.chromium.org/chromium/src/net/base/net_error_list.h
+const FILE_NOT_FOUND = -6;
+
 const getPath = async path_ => {
 	try {
 		const result = await stat(path_);
@@ -35,10 +38,15 @@ module.exports = options => {
 	const handler = async (request, callback) => {
 		const indexPath = path.join(options.directory, 'index.html');
 		const filePath = path.join(options.directory, decodeURIComponent(new URL(request.url).pathname));
+		const resolvedPath = await getPath(filePath);
 
-		callback({
-			path: (await getPath(filePath)) || indexPath
-		});
+		if (resolvedPath || !path.extname(filePath) || path.extname(filePath) === '.html') {
+			callback({
+				path: resolvedPath || indexPath
+			});
+		} else {
+			callback({error: FILE_NOT_FOUND});
+		}
 	};
 
 	if (electron.protocol.registerStandardSchemes) {
