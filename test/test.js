@@ -51,6 +51,5 @@ test('throws error if unresolved path has an extension other than .html', async 
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
 	await client.waitUntilWindowLoaded();
-	await t.throwsAsync(async () => client.waitUntilTextExists('h1', '🦄', 5000));
-	t.pass();
+	await t.throwsAsync(client.waitUntilTextExists('h1', '🦄', 5000));
 });
