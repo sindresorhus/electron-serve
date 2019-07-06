@@ -36,7 +36,7 @@
 		"url"
 	],
 	"devDependencies": {
-		"ava": "^1.4.1",
+		"ava": "^2.1.0",
 		"electron": "^3.0.0",
 		"spectron": "^5.0.0",
 		"tsd": "^0.7.3",
