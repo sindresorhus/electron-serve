@@ -19,6 +19,18 @@ test('serves directory index', async t => {
 	t.pass();
 });
 
+test('serves directory index on app ready', async t => {
+	t.context.spectron = new Application({
+		path: electron,
+		args: ['fixture-on-ready.js']
+	});
+	await t.context.spectron.start();
+	const {client} = t.context.spectron;
+	await client.waitUntilWindowLoaded();
+	await client.waitUntilTextExists('h1', '🦄', 5000);
+	t.pass();
+});
+
 test('allows special characters in file paths', async t => {
 	t.context.spectron = new Application({
 		path: electron,
