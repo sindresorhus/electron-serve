@@ -65,9 +65,7 @@ module.exports = options => {
 		]);
 	}
 
-	(async () => {
-		await electron.app.whenReady();
-
+	electron.app.on('ready', () => {
 		const session = options.partition ?
 			electron.session.fromPartition(options.partition) :
 			electron.session.defaultSession;
@@ -77,7 +75,7 @@ module.exports = options => {
 				throw error;
 			}
 		});
-	})();
+	});
 
 	return async win => {
 		await win.loadURL(`${options.scheme}://-`);
