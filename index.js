@@ -69,12 +69,17 @@ module.exports = options => {
 		const session = options.partition ?
 			electron.session.fromPartition(options.partition) :
 			electron.session.defaultSession;
-
-		session.protocol.registerFileProtocol(options.scheme, handler, error => {
-			if (error) {
-				throw error;
-			}
-		});
+		const major = process.versions.electron.split('.')[0];
+		if (major > "6") {
+			// https://github.com/electron/electron/blob/7-0-x/docs/api/breaking-changes-ns.md
+			session.protocol.registerFileProtocol(options.scheme, handler);
+		} else {
+			session.protocol.registerFileProtocol(options.scheme, handler, error => {
+				if (error) {
+					throw error;
+				}
+			});
+		}
 	});
 
 	return async win => {
