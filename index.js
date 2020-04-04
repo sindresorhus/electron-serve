@@ -58,8 +58,11 @@ module.exports = options => {
 			{
 				scheme: options.scheme,
 				privileges: {
+					standard: true,
 					secure: true,
-					standard: true
+					allowServiceWorkers: true,
+					supportFetchAPI: true,
+					corsEnabled: true
 				}
 			}
 		]);
