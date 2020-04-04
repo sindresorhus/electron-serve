@@ -4,15 +4,13 @@
 
 Normally you would just use `win.loadURL('file://…')`, but that doesn't work when you're making a single-page web app, which most Electron apps are today, as [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History_API)'ed URLs don't exist on disk. It serves files if they exist, and falls back to `index.html` if not, which means you can use router modules like [`react-router`](https://github.com/ReactTraining/react-router), [`vue-router`](https://github.com/vuejs/vue-router), etc.
 
-
 ## Install
 
 ```
 $ npm install electron-serve
 ```
 
-*Requires Electron 3 or later.*
-
+*Requires Electron 8 or later.*
 
 ## Usage
 
@@ -37,7 +35,6 @@ let mainWindow;
 })();
 ```
 
-
 ## API
 
 ### serve(options)
@@ -48,25 +45,24 @@ Type: `object`
 
 ##### directory
 
-*Required*<br>
+*Required*\
 Type: `string`
 
 The directory to serve, relative to the app root directory.
 
 ##### scheme
 
-Type: `string`<br>
-Default: `app`
+Type: `string`\
+Default: `'app'`
 
 Custom scheme. For example, `foo` results in your `directory` being available at `foo://-`.
 
 ##### partition
 
-Type: `string`<br>
+Type: `string`\
 Default: [`electron.session.defaultSession`](https://electronjs.org/docs/api/session#sessiondefaultsession)
 
 The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) the protocol should be installed to, if you're not using Electron's default partition.
-
 
 ## Related
 

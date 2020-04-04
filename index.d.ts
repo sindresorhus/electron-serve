@@ -1,6 +1,4 @@
 /// <reference lib="dom"/>
-/// <reference types="electron"/>
-/// <reference types="node"/>
 import {BrowserWindow} from 'electron';
 
 declare namespace electronServe {
@@ -22,15 +20,13 @@ declare namespace electronServe {
 
 		@default electron.session.defaultSession
 		*/
-		partition?:string
+		partition?: string;
 	}
 
-	interface loadURL {
-		/**
-		Load the index file in the window.
-		*/
-		(window: BrowserWindow): Promise<void>;
-	}
+	/**
+	Load the index file in the window.
+	*/
+	type loadURL = (window: BrowserWindow) => Promise<void>;
 }
 
 /**

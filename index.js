@@ -28,7 +28,6 @@ module.exports = options => {
 		scheme: 'app'
 	}, options);
 
-	// TODO: Make directory relative to app root. Document it.
 	if (!options.directory) {
 		throw new Error('The `directory` option is required');
 	}
@@ -49,43 +48,28 @@ module.exports = options => {
 		}
 	};
 
-	if (electron.protocol.registerStandardSchemes) {
-		// Electron <=4
-		electron.protocol.registerStandardSchemes([options.scheme], {secure: true});
-	} else {
-		// Electron >=5
-		electron.protocol.registerSchemesAsPrivileged([
-			{
-				scheme: options.scheme,
-				privileges: {
-					standard: true,
-					secure: true,
-					allowServiceWorkers: true,
-					supportFetchAPI: true,
-					corsEnabled: true
-				}
+	electron.protocol.registerSchemesAsPrivileged([
+		{
+			scheme: options.scheme,
+			privileges: {
+				standard: true,
+				secure: true,
+				allowServiceWorkers: true,
+				supportFetchAPI: true,
+				corsEnabled: true
 			}
-		]);
-	}
+		}
+	]);
 
 	electron.app.on('ready', () => {
 		const session = options.partition ?
 			electron.session.fromPartition(options.partition) :
 			electron.session.defaultSession;
-		const electronMajorVersion = Number.parseInt(process.versions.electron.split('.')[0], 10);
-		if (electronMajorVersion >= 7) {
-			// https://github.com/electron/electron/blob/7-0-x/docs/api/breaking-changes-ns.md
-			session.protocol.registerFileProtocol(options.scheme, handler);
-		} else {
-			session.protocol.registerFileProtocol(options.scheme, handler, error => {
-				if (error) {
-					throw error;
-				}
-			});
-		}
+
+		session.protocol.registerFileProtocol(options.scheme, handler);
 	});
 
-	return async win => {
-		await win.loadURL(`${options.scheme}://-`);
+	return async window_ => {
+		await window_.loadURL(`${options.scheme}://-`);
 	};
 };

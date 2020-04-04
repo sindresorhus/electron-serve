@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import electron from 'electron';
 import {serial as test} from 'ava';
 import {Application} from 'spectron';
