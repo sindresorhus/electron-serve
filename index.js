@@ -38,8 +38,9 @@ module.exports = options => {
 		const indexPath = path.join(options.directory, 'index.html');
 		const filePath = path.join(options.directory, decodeURIComponent(new URL(request.url).pathname));
 		const resolvedPath = await getPath(filePath);
+		const fileExtension = path.extname(filePath);
 
-		if (resolvedPath || !path.extname(filePath) || path.extname(filePath) === '.html') {
+		if (resolvedPath || !fileExtension || fileExtension === '.html' || fileExtension === '.asar') {
 			callback({
 				path: resolvedPath || indexPath
 			});
