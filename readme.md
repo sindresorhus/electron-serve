@@ -1,4 +1,4 @@
-# electron-serve [![Build Status](https://travis-ci.org/sindresorhus/electron-serve.svg?branch=master)](https://travis-ci.org/sindresorhus/electron-serve)
+# electron-serve
 
 > Static file serving for Electron apps
 
