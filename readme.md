@@ -57,6 +57,14 @@ Default: `'app'`
 
 Custom scheme. For example, `foo` results in your `directory` being available at `foo://-`.
 
+##### isCorsEnabled
+
+Type: `boolean`\
+Default: `true`
+
+Whether [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) should be enabled.
+Useful for testing purposes.
+
 ##### partition
 
 Type: `string`\

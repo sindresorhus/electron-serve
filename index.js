@@ -25,6 +25,7 @@ const getPath = async path_ => {
 
 module.exports = options => {
 	options = Object.assign({
+		isCorsEnabled: true,
 		scheme: 'app'
 	}, options);
 
@@ -57,7 +58,7 @@ module.exports = options => {
 				secure: true,
 				allowServiceWorkers: true,
 				supportFetchAPI: true,
-				corsEnabled: true
+				corsEnabled: options.isCorsEnabled
 			}
 		}
 	]);

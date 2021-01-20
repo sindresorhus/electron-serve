@@ -16,6 +16,14 @@ declare namespace electronServe {
 		scheme?: string;
 
 		/**
+		Whether [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) should be enabled.
+		Useful for testing purposes.
+
+		@default true
+		*/
+		isCorsEnabled?: boolean;
+
+		/**
 		The partition the protocol should be installed to, if you're not using Electron's default partition.
 
 		@default electron.session.defaultSession
