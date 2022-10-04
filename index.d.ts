@@ -29,6 +29,20 @@ declare namespace electronServe {
 		@default electron.session.defaultSession
 		*/
 		partition?: string;
+
+                /**
+		`hash` option for `loadFile` in https://www.electronjs.org/docs/latest/api/browser-window#winloadfilefilepath-options
+
+		@default ''
+		*/
+		hash?: string;
+		
+		/**
+		`search` option for `loadFile` in https://www.electronjs.org/docs/latest/api/browser-window#winloadfilefilepath-options
+
+		@default ''
+		*/
+		search?: string;
 	}
 
 	/**
