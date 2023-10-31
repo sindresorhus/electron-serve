@@ -20,7 +20,7 @@ declare namespace electronServe {
 
 		@default '-'
 		*/
-		hostname?: string,
+		hostname?: string;
 
 		/**
 		Whether [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) should be enabled.
