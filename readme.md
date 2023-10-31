@@ -57,6 +57,13 @@ Default: `'app'`
 
 Custom scheme. For example, `foo` results in your `directory` being available at `foo://-`.
 
+##### hostname
+
+Type: `string`\
+Default: `'-'`
+
+Custom hostname. Overwrites the default `-` value.
+
 ##### isCorsEnabled
 
 Type: `boolean`\
