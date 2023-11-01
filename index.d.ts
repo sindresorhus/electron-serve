@@ -16,7 +16,7 @@ declare namespace electronServe {
 		scheme?: string;
 
 		/**
-		Custom hostname. Overwrites the default `-` value.
+		Custom hostname.
 
 		@default '-'
 		*/
