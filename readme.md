@@ -62,7 +62,7 @@ Custom scheme. For example, `foo` results in your `directory` being available at
 Type: `string`\
 Default: `'-'`
 
-Custom hostname. Overwrites the default `-` value.
+Custom hostname.
 
 ##### isCorsEnabled
 
