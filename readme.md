@@ -6,8 +6,8 @@ Normally you would just use `win.loadURL('file://…')`, but that doesn't work w
 
 ## Install
 
-```
-$ npm install electron-serve
+```sh
+npm install electron-serve
 ```
 
 *Requires Electron 8 or later.*

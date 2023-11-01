@@ -4,10 +4,14 @@
 	"description": "Static file serving for Electron apps",
 	"license": "MIT",
 	"repository": "sindresorhus/electron-serve",
+	"funding": "https://github.com/sponsors/sindresorhus",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "https://sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=12"
 	},
 	"scripts": {
 		"test": "xo",
@@ -49,7 +53,8 @@
 			"browser"
 		],
 		"rules": {
-			"no-redeclare": "off"
+			"no-redeclare": "off",
+			"prefer-object-spread": "off"
 		}
 	}
 }
