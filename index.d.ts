@@ -16,6 +16,13 @@ declare namespace electronServe {
 		scheme?: string;
 
 		/**
+		Custom hostname.
+
+		@default '-'
+		*/
+		hostname?: string;
+
+		/**
 		Whether [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) should be enabled.
 		Useful for testing purposes.
 

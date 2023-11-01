@@ -26,7 +26,8 @@ const getPath = async path_ => {
 module.exports = options => {
 	options = Object.assign({
 		isCorsEnabled: true,
-		scheme: 'app'
+		scheme: 'app',
+		hostname: '-'
 	}, options);
 
 	if (!options.directory) {
@@ -72,6 +73,6 @@ module.exports = options => {
 	});
 
 	return async window_ => {
-		await window_.loadURL(`${options.scheme}://-`);
+		await window_.loadURL(`${options.scheme}://${options.hostname}`);
 	};
 };
