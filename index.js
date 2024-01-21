@@ -9,7 +9,7 @@ const stat = promisify(fs.stat);
 // See https://cs.chromium.org/chromium/src/net/base/net_error_list.h
 const FILE_NOT_FOUND = -6;
 
-const getPath = async (path_, route) => {
+const getPath = async (path_, file) => {
 	try {
 		const result = await stat(path_);
 
@@ -18,7 +18,7 @@ const getPath = async (path_, route) => {
 		}
 
 		if (result.isDirectory()) {
-			return getPath(path.join(path_, `${route}.html`));
+			return getPath(path.join(path_, `${file}.html`));
 		}
 	} catch (_) {}
 };
@@ -28,7 +28,7 @@ module.exports = options => {
 		isCorsEnabled: true,
 		scheme: 'app',
 		hostname: '-',
-		route: 'index'
+		file: 'index'
 	}, options);
 
 	if (!options.directory) {
@@ -38,9 +38,9 @@ module.exports = options => {
 	options.directory = path.resolve(electron.app.getAppPath(), options.directory);
 
 	const handler = async (request, callback) => {
-		const indexPath = path.join(options.directory, `${options.route}.html`);
+		const indexPath = path.join(options.directory, `${options.file}.html`);
 		const filePath = path.join(options.directory, decodeURIComponent(new URL(request.url).pathname));
-		const resolvedPath = await getPath(filePath, options.route);
+		const resolvedPath = await getPath(filePath, options.file);
 		const fileExtension = path.extname(filePath);
 
 		if (resolvedPath || !fileExtension || fileExtension === '.html' || fileExtension === '.asar') {

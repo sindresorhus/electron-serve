@@ -64,7 +64,7 @@ Default: `'-'`
 
 Custom hostname.
 
-##### route
+##### file
 
 Type: `string`\
 Default: `'index'`
