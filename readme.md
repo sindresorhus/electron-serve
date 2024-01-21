@@ -28,6 +28,8 @@ let mainWindow;
 	mainWindow = new BrowserWindow();
 
 	await loadURL(mainWindow);
+	// Or optionally with query params
+	await loadURL(mainWindow, 'id=4&foo=bar');
 
 	// The above is equivalent to this:
 	await mainWindow.loadURL('app://-');
