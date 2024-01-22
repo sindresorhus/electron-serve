@@ -39,7 +39,7 @@ let mainWindow;
 
 ## API
 
-### serve(options)
+### loadUrl = serve(options)
 
 #### options
 
@@ -101,9 +101,9 @@ The window to load the file in.
 
 ##### searchParameters
 
-Type: `object`\
+Type: `object | URLSearchParams`
 
-Key value pairs to set as the query parameters.
+Key value pairs or an [`URLSearchParams` instance](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) to set as the query parameters.
 
 ## Related
 
