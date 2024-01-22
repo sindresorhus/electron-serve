@@ -29,6 +29,9 @@ let mainWindow;
 
 	await loadURL(mainWindow);
 
+	// Or optionally with search parameters.
+	await loadURL(mainWindow, {id: 4, foo: 'bar'});
+
 	// The above is equivalent to this:
 	await mainWindow.loadURL('app://-');
 	// The `-` is just the required hostname
@@ -37,7 +40,7 @@ let mainWindow;
 
 ## API
 
-### serve(options)
+### loadUrl = serve(options)
 
 #### options
 
@@ -85,6 +88,23 @@ Type: `string`\
 Default: [`electron.session.defaultSession`](https://electronjs.org/docs/api/session#sessiondefaultsession)
 
 The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) the protocol should be installed to, if you're not using Electron's default partition.
+
+### loadUrl(window, searchParameters?)
+
+The `serve` function returns a `loadUrl` function, which you use to serve your HTML file in that window.
+
+##### window
+
+*Required*\
+Type: `BrowserWindow`
+
+The window to load the file in.
+
+##### searchParameters
+
+Type: `object | URLSearchParams`
+
+Key value pairs or an [`URLSearchParams` instance](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) to set as the search parameters.
 
 ## Related
 

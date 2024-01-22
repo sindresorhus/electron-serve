@@ -73,7 +73,8 @@ module.exports = options => {
 		session.protocol.registerFileProtocol(options.scheme, handler);
 	});
 
-	return async window_ => {
-		await window_.loadURL(`${options.scheme}://${options.hostname}`);
+	return async (window_, searchParameters) => {
+		const queryString = searchParameters ? '?' + new URLSearchParams(searchParameters).toString() : '';
+		await window_.loadURL(`${options.scheme}://${options.hostname}${queryString}`);
 	};
 };

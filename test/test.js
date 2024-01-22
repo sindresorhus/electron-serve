@@ -77,3 +77,15 @@ test('serves directory custom file', async t => {
 	await client.waitUntilTextExists('h1', '🦉', 5000);
 	t.pass();
 });
+
+test('serves directory index with search params', async t => {
+	t.context.spectron = new Application({
+		path: electron,
+		args: ['fixture-search-params.js']
+	});
+	await t.context.spectron.start();
+	const {client} = t.context.spectron;
+	await client.waitUntilWindowLoaded();
+	await client.waitUntilTextExists('h1', '4bar', 5000);
+	t.pass();
+});

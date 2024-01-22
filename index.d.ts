@@ -48,7 +48,7 @@ declare namespace electronServe {
 	/**
 	Load the index file in the window.
 	*/
-	type loadURL = (window: BrowserWindow) => Promise<void>;
+	type loadURL = (window: BrowserWindow, searchParameters?: Record<string, string> | URLSearchParams) => Promise<void>;
 }
 
 /**
@@ -69,6 +69,9 @@ let mainWindow;
 	mainWindow = new BrowserWindow();
 
 	await loadURL(mainWindow);
+
+	// Or optionally with search parameters.
+	await loadURL(mainWindow, {id: 4, foo: 'bar'});
 
 	// The above is equivalent to this:
 	await mainWindow.loadURL('app://-');
