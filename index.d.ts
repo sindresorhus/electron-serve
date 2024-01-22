@@ -41,7 +41,7 @@ declare namespace electronServe {
 	/**
 	Load the index file in the window.
 	*/
-	type loadURL = (window: BrowserWindow, searchParams?: Object) => Promise<void>;
+	type loadURL = (window: BrowserWindow, searchParameters?: Record<string>) => Promise<void>;
 }
 
 /**

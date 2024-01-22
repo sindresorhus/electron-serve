@@ -92,7 +92,7 @@ Type: `BrowserWindow`\
 
 The window to load the file in.
 
-##### searchParams
+##### searchParameters
 
 Type: `object`\
 
