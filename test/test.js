@@ -65,3 +65,15 @@ test('throws error if unresolved path has an extension other than .html', async 
 	await t.throwsAsync(client.waitUntilTextExists('h1', '🦄', 5000));
 	t.pass();
 });
+
+test('serves directory index with search params', async t => {
+	t.context.spectron = new Application({
+		path: electron,
+		args: ['fixture-search-params.js']
+	});
+	await t.context.spectron.start();
+	const {client} = t.context.spectron;
+	await client.waitUntilWindowLoaded();
+	await client.waitUntilTextExists('h1', '4bar', 5000);
+	t.pass();
+});
