@@ -73,7 +73,7 @@ module.exports = options => {
 	});
 
 	return async (window_, searchParameters) => {
-		const qs = searchParameters ? '?' + new URLSearchParams(searchParameters).toString() : '';
-		await window_.loadURL(`${options.scheme}://${options.hostname}${qs}`);
+		const queryString = searchParameters ? '?' + new URLSearchParams(searchParameters).toString() : '';
+		await window_.loadURL(`${options.scheme}://${options.hostname}${queryString}`);
 	};
 };
