@@ -87,7 +87,7 @@ Useful for testing purposes.
 Type: `string`\
 Default: [`electron.session.defaultSession`](https://electronjs.org/docs/api/session#sessiondefaultsession)
 
-The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) the protocol should be installed to, if you're not using Electron's default partition.
+The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) where the protocol should be installed, if not using Electron's default partition.
 
 ### loadUrl(window, searchParameters?)
 

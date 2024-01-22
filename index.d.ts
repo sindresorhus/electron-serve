@@ -38,7 +38,7 @@ declare namespace electronServe {
 		isCorsEnabled?: boolean;
 
 		/**
-		The partition the protocol should be installed to, if you're not using Electron's default partition.
+		The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) where the protocol should be installed, if not using Electron's default partition.
 
 		@default electron.session.defaultSession
 		*/
