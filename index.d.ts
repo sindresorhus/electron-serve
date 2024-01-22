@@ -23,7 +23,7 @@ declare namespace electronServe {
 		hostname?: string;
 
 		/**
-		Custom html file name. This gets appended with `.html`.
+		Custom HTML filename. This gets appended with `.html`.
 
 		@default 'index'
 		*/
