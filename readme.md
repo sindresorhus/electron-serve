@@ -96,7 +96,7 @@ The `serve` function returns a `loadUrl` function, which you use to serve your H
 ##### window
 
 *Required*\
-Type: `BrowserWindow`\
+Type: `BrowserWindow`
 
 The window to load the file in.
 
