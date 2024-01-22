@@ -28,7 +28,8 @@ let mainWindow;
 	mainWindow = new BrowserWindow();
 
 	await loadURL(mainWindow);
-	// Or optionally with query params
+
+	// Or optionally with search parameters.
 	await loadURL(mainWindow, {id: 4, foo: 'bar'});
 
 	// The above is equivalent to this:
@@ -103,7 +104,7 @@ The window to load the file in.
 
 Type: `object | URLSearchParams`
 
-Key value pairs or an [`URLSearchParams` instance](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) to set as the query parameters.
+Key value pairs or an [`URLSearchParams` instance](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) to set as the search parameters.
 
 ## Related
 
