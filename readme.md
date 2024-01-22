@@ -81,7 +81,7 @@ Default: [`electron.session.defaultSession`](https://electronjs.org/docs/api/ses
 
 The [partition](https://electronjs.org/docs/api/session#sessionfrompartitionpartition-options) the protocol should be installed to, if you're not using Electron's default partition.
 
-### loadUrl(window, searchParams?)
+### loadUrl(window, searchParameters?)
 
 The `serve` function returns a `loadUrl` function, which you use to serve your HTML file in that window.
 
