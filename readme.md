@@ -64,6 +64,13 @@ Default: `'-'`
 
 Custom hostname.
 
+##### file
+
+Type: `string`\
+Default: `'index'`
+
+Custom HTML filename. This gets appended with `'.html'`.
+
 ##### isCorsEnabled
 
 Type: `boolean`\
