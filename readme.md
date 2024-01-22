@@ -69,7 +69,7 @@ Custom hostname.
 Type: `string`\
 Default: `'index'`
 
-Custom html file name. This gets appended with `'.html'`.
+Custom HTML filename. This gets appended with `'.html'`.
 
 ##### isCorsEnabled
 
