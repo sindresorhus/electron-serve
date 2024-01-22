@@ -23,6 +23,13 @@ declare namespace electronServe {
 		hostname?: string;
 
 		/**
+		Custom HTML filename. This gets appended with `'.html'`.
+
+		@default 'index'
+		*/
+		file?: string;
+
+		/**
 		Whether [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) should be enabled.
 		Useful for testing purposes.
 

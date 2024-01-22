@@ -66,6 +66,18 @@ test('throws error if unresolved path has an extension other than .html', async 
 	t.pass();
 });
 
+test('serves directory custom file', async t => {
+	t.context.spectron = new Application({
+		path: electron,
+		args: ['fixture-custom-file.js']
+	});
+	await t.context.spectron.start();
+	const {client} = t.context.spectron;
+	await client.waitUntilWindowLoaded();
+	await client.waitUntilTextExists('h1', '🦉', 5000);
+	t.pass();
+});
+
 test('serves directory index with search params', async t => {
 	t.context.spectron = new Application({
 		path: electron,
