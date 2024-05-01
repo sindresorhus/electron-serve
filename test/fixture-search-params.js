@@ -1,12 +1,12 @@
-'use strict';
-const {app, BrowserWindow} = require('electron');
-const {join} = require('path');
-const serve = require('..');
+import {app, BrowserWindow} from 'electron';
+import path from 'node:path';
+import serve from '../index.js';
 
-const loadUrl = serve({directory: join(__dirname, 'sub')});
+const loadUrl = serve({directory: path.join(import.meta.dirname, 'sub')});
 
 let mainWindow;
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 (async () => {
 	await app.whenReady();
 

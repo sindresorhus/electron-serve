@@ -10,13 +10,13 @@ Normally you would just use `win.loadURL('file://…')`, but that doesn't work w
 npm install electron-serve
 ```
 
-*Requires Electron 8 or later.*
+*Requires Electron 30 or later.*
 
 ## Usage
 
 ```js
-const {app, BrowserWindow} = require('electron');
-const serve = require('electron-serve');
+import {app, BrowserWindow} from 'electron';
+import serve from 'electron-serve';
 
 const loadURL = serve({directory: 'renderer'});
 

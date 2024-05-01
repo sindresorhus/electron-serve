@@ -1,17 +1,13 @@
-'use strict';
-const fs = require('fs');
-const path = require('path');
-const {promisify} = require('util');
-const electron = require('electron');
-
-const stat = promisify(fs.stat);
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import electron from 'electron';
 
 // See https://cs.chromium.org/chromium/src/net/base/net_error_list.h
 const FILE_NOT_FOUND = -6;
 
 const getPath = async (path_, file) => {
 	try {
-		const result = await stat(path_);
+		const result = await fs.stat(path_);
 
 		if (result.isFile()) {
 			return path_;
@@ -20,16 +16,17 @@ const getPath = async (path_, file) => {
 		if (result.isDirectory()) {
 			return getPath(path.join(path_, `${file}.html`));
 		}
-	} catch (_) {}
+	} catch {}
 };
 
-module.exports = options => {
-	options = Object.assign({
+export default function electronServe(options) {
+	options = {
 		isCorsEnabled: true,
 		scheme: 'app',
 		hostname: '-',
-		file: 'index'
-	}, options);
+		file: 'index',
+		...options,
+	};
 
 	if (!options.directory) {
 		throw new Error('The `directory` option is required');
@@ -43,9 +40,9 @@ module.exports = options => {
 		const resolvedPath = await getPath(filePath, options.file);
 		const fileExtension = path.extname(filePath);
 
-		if (resolvedPath || !fileExtension || fileExtension === '.html' || fileExtension === '.asar') {
+		if (resolvedPath ?? (!fileExtension || fileExtension === '.html' || fileExtension === '.asar')) {
 			callback({
-				path: resolvedPath || indexPath
+				path: resolvedPath || indexPath,
 			});
 		} else {
 			callback({error: FILE_NOT_FOUND});
@@ -60,15 +57,15 @@ module.exports = options => {
 				secure: true,
 				allowServiceWorkers: true,
 				supportFetchAPI: true,
-				corsEnabled: options.isCorsEnabled
-			}
-		}
+				corsEnabled: options.isCorsEnabled,
+			},
+		},
 	]);
 
 	electron.app.on('ready', () => {
-		const session = options.partition ?
-			electron.session.fromPartition(options.partition) :
-			electron.session.defaultSession;
+		const session = options.partition
+			? electron.session.fromPartition(options.partition)
+			: electron.session.defaultSession;
 
 		session.protocol.registerFileProtocol(options.scheme, handler);
 	});
@@ -77,4 +74,4 @@ module.exports = options => {
 		const queryString = searchParameters ? '?' + new URLSearchParams(searchParameters).toString() : '';
 		await window_.loadURL(`${options.scheme}://${options.hostname}${queryString}`);
 	};
-};
+}

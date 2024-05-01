@@ -1,8 +1,7 @@
-'use strict';
-const {app, BrowserWindow} = require('electron');
-const serve = require('..');
+import {app, BrowserWindow} from 'electron';
+import serve from '../index.js';
 
-const loadUrl = serve({directory: __dirname});
+const loadUrl = serve({directory: import.meta.dirname});
 
 let mainWindow;
 

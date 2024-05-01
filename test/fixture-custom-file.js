@@ -1,11 +1,11 @@
-'use strict';
-const {app, BrowserWindow} = require('electron');
-const serve = require('..');
+import {app, BrowserWindow} from 'electron';
+import serve from '../index.js';
 
-const loadUrl = serve({directory: __dirname, file: 'owl'});
+const loadUrl = serve({directory: import.meta.dirname, file: 'owl'});
 
 let mainWindow;
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 (async () => {
 	await app.whenReady();
 

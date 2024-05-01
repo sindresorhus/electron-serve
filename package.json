@@ -10,13 +10,19 @@
 		"email": "sindresorhus@gmail.com",
 		"url": "https://sindresorhus.com"
 	},
+	"type": "module",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
 	"sideEffects": false,
 	"engines": {
-		"node": ">=12"
+		"node": ">=18"
 	},
 	"scripts": {
-		"test": "xo",
-		"//test": "xo && (cd test && ava) && tsd"
+		"start": "electron test/fixture.js",
+		"//test": "xo && (cd test && ava) && tsc index.d.ts",
+		"test": "xo && tsc index.d.ts"
 	},
 	"files": [
 		"index.js",
@@ -42,20 +48,15 @@
 		"url"
 	],
 	"devDependencies": {
-		"ava": "^2.1.0",
-		"electron": "^8.2.0",
-		"spectron": "^10.0.1",
-		"tsd": "^0.11.0",
-		"xo": "^0.28.2"
+		"ava": "^6.1.2",
+		"electron": "^30.0.1",
+		"typescript": "^5.4.5",
+		"xo": "^0.58.0"
 	},
 	"xo": {
 		"envs": [
 			"node",
 			"browser"
-		],
-		"rules": {
-			"no-redeclare": "off",
-			"prefer-object-spread": "off"
-		}
+		]
 	}
 }

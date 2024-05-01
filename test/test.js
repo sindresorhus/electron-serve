@@ -9,7 +9,7 @@ test.afterEach.always(async t => {
 test('serves directory index', async t => {
 	t.context.spectron = new Application({
 		path: electron,
-		args: ['fixture.js']
+		args: ['fixture.js'],
 	});
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
@@ -21,7 +21,7 @@ test('serves directory index', async t => {
 test('serves directory index on app ready', async t => {
 	t.context.spectron = new Application({
 		path: electron,
-		args: ['fixture-on-ready.js']
+		args: ['fixture-on-ready.js'],
 	});
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
@@ -33,7 +33,7 @@ test('serves directory index on app ready', async t => {
 test('allows special characters in file paths', async t => {
 	t.context.spectron = new Application({
 		path: electron,
-		args: ['fixture-encoded-uri.js']
+		args: ['fixture-encoded-uri.js'],
 	});
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
@@ -45,7 +45,7 @@ test('allows special characters in file paths', async t => {
 test('fallbacks to root index if unresolved path has .html extension or no extension', async t => {
 	t.context.spectron = new Application({
 		path: electron,
-		args: ['fixture-dir-fallback.js']
+		args: ['fixture-dir-fallback.js'],
 	});
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
@@ -57,7 +57,7 @@ test('fallbacks to root index if unresolved path has .html extension or no exten
 test('throws error if unresolved path has an extension other than .html', async t => {
 	t.context.spectron = new Application({
 		path: electron,
-		args: ['fixture-404-error.js']
+		args: ['fixture-404-error.js'],
 	});
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
@@ -69,7 +69,7 @@ test('throws error if unresolved path has an extension other than .html', async 
 test('serves directory custom file', async t => {
 	t.context.spectron = new Application({
 		path: electron,
-		args: ['fixture-custom-file.js']
+		args: ['fixture-custom-file.js'],
 	});
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
@@ -81,7 +81,7 @@ test('serves directory custom file', async t => {
 test('serves directory index with search params', async t => {
 	t.context.spectron = new Application({
 		path: electron,
-		args: ['fixture-search-params.js']
+		args: ['fixture-search-params.js'],
 	});
 	await t.context.spectron.start();
 	const {client} = t.context.spectron;
