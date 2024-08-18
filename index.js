@@ -37,16 +37,26 @@ export default function electronServe(options) {
 	const handler = async (request, callback) => {
 		const indexPath = path.join(options.directory, `${options.file}.html`);
 		const filePath = path.join(options.directory, decodeURIComponent(new URL(request.url).pathname));
-		const resolvedPath = await getPath(filePath, options.file);
+
+		const relativePath = path.relative(options.directory, filePath);
+		const isSafe = relativePath && !relativePath.startsWith('..') && !path.isAbsolute(relativePath);
+
+		if (!isSafe) {
+			callback({error: FILE_NOT_FOUND});
+			return;
+		}
+
+		const finalPath = await getPath(filePath, options.file);
 		const fileExtension = path.extname(filePath);
 
-		if (resolvedPath ?? (!fileExtension || fileExtension === '.html' || fileExtension === '.asar')) {
-			callback({
-				path: resolvedPath || indexPath,
-			});
-		} else {
+		if (!finalPath && fileExtension && fileExtension !== '.html' && fileExtension !== '.asar') {
 			callback({error: FILE_NOT_FOUND});
+			return;
 		}
+
+		callback({
+			path: finalPath || indexPath,
+		});
 	};
 
 	electron.protocol.registerSchemesAsPrivileged([
