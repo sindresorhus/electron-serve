@@ -39,7 +39,7 @@ export default function electronServe(options) {
 		const filePath = path.join(options.directory, decodeURIComponent(new URL(request.url).pathname));
 
 		const relativePath = path.relative(options.directory, filePath);
-		const isSafe = relativePath !== null && !relativePath.startsWith('..') && !path.isAbsolute(relativePath);
+		const isSafe = !relativePath.startsWith('..') && !path.isAbsolute(relativePath);
 
 		if (!isSafe) {
 			callback({error: FILE_NOT_FOUND});
