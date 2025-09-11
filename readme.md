@@ -106,6 +106,12 @@ Type: `object | URLSearchParams`
 
 Key value pairs or an [`URLSearchParams` instance](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) to set as the search parameters.
 
+## Notes
+
+### Relative `require()` paths
+
+Since files are served via a custom protocol, Node.js `require()` calls with relative paths won't work as expected. Use `<script src="...">` tags, bundlers like Webpack, or `<script>require('./file.js')</script>` instead of `<script src="./file.js">`.
+
 ## Related
 
 - [electron-util](https://github.com/sindresorhus/electron-util) - Useful utilities for developing Electron apps and modules
