@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<h1 id="result">Loading...</h1>
+		<script type="module">
+			import {testFunction, moduleInfo} from './es-module.js';
+			
+			const result = testFunction();
+			document.getElementById('result').textContent = result;
+			console.log('Module info:', moduleInfo);
+			
+			// Signal that ES modules are working
+			window.esModulesWorking = true;
+		</script>
+	</body>
+</html>

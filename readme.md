@@ -108,6 +108,16 @@ Key value pairs or an [`URLSearchParams` instance](https://developer.mozilla.org
 
 ## Notes
 
+### ES modules support
+
+ES modules (ES2015+ modules) work out of the box. JavaScript files are served with the correct `text/javascript` MIME type, allowing you to use ES6 `import`/`export` syntax:
+
+```html
+<script type="module">
+	import {myFunction} from './my-module.js';
+</script>
+```
+
 ### Relative `require()` paths
 
 Since files are served via a custom protocol, Node.js `require()` calls with relative paths won't work as expected. Use `<script src="...">` tags, bundlers like Webpack, or `<script>require('./file.js')</script>` instead of `<script src="./file.js">`.

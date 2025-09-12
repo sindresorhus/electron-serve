@@ -89,3 +89,15 @@ test('serves directory index with search params', async t => {
 	await client.waitUntilTextExists('h1', '4bar', 5000);
 	t.pass();
 });
+
+test('supports ES modules', async t => {
+	t.context.spectron = new Application({
+		path: electron,
+		args: ['fixture-es-modules.js'],
+	});
+	await t.context.spectron.start();
+	const {client} = t.context.spectron;
+	await client.waitUntilWindowLoaded();
+	await client.waitUntilTextExists('h1', 'ES module loaded successfully', 5000);
+	t.pass();
+});
