@@ -1,9 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import electron from 'electron';
-
-// See https://cs.chromium.org/chromium/src/net/base/net_error_list.h
-const FILE_NOT_FOUND = -6;
 
 const getPath = async (path_, file) => {
 	try {
@@ -34,7 +32,7 @@ export default function electronServe(options) {
 
 	options.directory = path.resolve(electron.app.getAppPath(), options.directory);
 
-	const handler = async (request, callback) => {
+	const handler = async request => {
 		const indexPath = path.join(options.directory, `${options.file}.html`);
 		const filePath = path.join(options.directory, decodeURIComponent(new URL(request.url).pathname));
 
@@ -42,21 +40,18 @@ export default function electronServe(options) {
 		const isSafe = !relativePath.startsWith('..') && !path.isAbsolute(relativePath);
 
 		if (!isSafe) {
-			callback({error: FILE_NOT_FOUND});
-			return;
+			return new Response(null, {status: 404, statusText: 'Not Found'});
 		}
 
 		const finalPath = await getPath(filePath, options.file);
 		const fileExtension = path.extname(filePath);
 
 		if (!finalPath && fileExtension && fileExtension !== '.html' && fileExtension !== '.asar') {
-			callback({error: FILE_NOT_FOUND});
-			return;
+			return new Response(null, {status: 404, statusText: 'Not Found'});
 		}
 
-		callback({
-			path: finalPath || indexPath,
-		});
+		const fileUrl = pathToFileURL(finalPath || indexPath);
+		return electron.net.fetch(fileUrl.toString());
 	};
 
 	electron.protocol.registerSchemesAsPrivileged([
@@ -77,7 +72,7 @@ export default function electronServe(options) {
 			? electron.session.fromPartition(options.partition)
 			: electron.session.defaultSession;
 
-		session.protocol.registerFileProtocol(options.scheme, handler);
+		session.protocol.handle(options.scheme, handler);
 	});
 
 	return async (window_, searchParameters) => {
