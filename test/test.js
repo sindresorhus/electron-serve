@@ -145,3 +145,11 @@ test('supports ES modules', async () => {
 test('serves source maps with correct MIME type', async () => {
 	await runElectronTest('fixture-sourcemap.js');
 });
+
+test('serves from default directory when no options provided', async () => {
+	await runElectronTest('fixture-default-directory.js');
+});
+
+test('serves from default directory when empty options provided', async () => {
+	await runElectronTest('fixture-empty-options.js');
+});

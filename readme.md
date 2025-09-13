@@ -40,7 +40,7 @@ let mainWindow;
 
 ## API
 
-### loadUrl = serve(options)
+### loadUrl = serve(options?)
 
 #### options
 
@@ -48,8 +48,8 @@ Type: `object`
 
 ##### directory
 
-*Required*\
-Type: `string`
+Type: `string`\
+Default: `'.'`
 
 The directory to serve, relative to the app root directory.
 

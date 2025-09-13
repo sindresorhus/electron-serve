@@ -3,8 +3,10 @@ import {type BrowserWindow} from 'electron';
 export type Options = {
 	/**
 	The directory to serve, relative to the app root directory.
+
+	@default '.'
 	*/
-	directory: string;
+	directory?: string;
 
 	/**
 	Custom scheme. For example, `foo` results in your `directory` being available at `foo://-`.
@@ -76,4 +78,4 @@ let mainWindow;
 })();
 ```
 */
-export default function electronServe(options: Options): LoadURL;
+export default function electronServe(options?: Options): LoadURL;

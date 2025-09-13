@@ -17,18 +17,15 @@ const getPath = async (path_, file) => {
 	} catch {}
 };
 
-export default function electronServe(options) {
+export default function electronServe(options = {}) {
 	options = {
 		isCorsEnabled: true,
 		scheme: 'app',
 		hostname: '-',
 		file: 'index',
+		directory: '.',
 		...options,
 	};
-
-	if (!options.directory) {
-		throw new Error('The `directory` option is required');
-	}
 
 	options.directory = path.resolve(electron.app.getAppPath(), options.directory);
 
