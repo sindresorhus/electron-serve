@@ -1,6 +1,6 @@
 {
 	"name": "electron-serve",
-	"version": "2.1.1",
+	"version": "3.0.0",
 	"description": "Static file serving for Electron apps",
 	"license": "MIT",
 	"repository": "sindresorhus/electron-serve",
