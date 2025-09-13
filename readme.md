@@ -126,6 +126,21 @@ Source maps are fully supported for debugging. `.map` files are served with the 
 
 Since files are served via a custom protocol, Node.js `require()` calls with relative paths won't work as expected. Use `<script src="...">` tags, bundlers like Webpack, or `<script>require('./file.js')</script>` instead of `<script src="./file.js">`.
 
+### Multiple windows with different content
+
+To serve different directories or files for different windows, use unique `scheme` names:
+
+```js
+const loadMain = serve({directory: 'main', scheme: 'app'});
+const loadSettings = serve({directory: 'settings', scheme: 'settings'});
+
+// Or different files from the same directory
+const loadMain = serve({directory: 'dist', file: 'main', scheme: 'main'});
+const loadPopup = serve({directory: 'dist', file: 'popup', scheme: 'popup'});
+```
+
+Note: If you are using custom `partition` in BrowserWindow, it must match the `partition` in the serve options.
+
 ## Related
 
 - [electron-util](https://github.com/sindresorhus/electron-util) - Useful utilities for developing Electron apps and modules
