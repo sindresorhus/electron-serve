@@ -51,7 +51,22 @@ export default function electronServe(options) {
 		}
 
 		const fileUrl = pathToFileURL(finalPath || indexPath);
-		return electron.net.fetch(fileUrl.toString());
+		const response = await electron.net.fetch(fileUrl.toString());
+
+		// Fix MIME type for source map files to enable DevTools support
+		if ((finalPath || indexPath).endsWith('.map')) {
+			const body = await response.arrayBuffer();
+			return new Response(body, {
+				status: response.status,
+				statusText: response.statusText,
+				headers: {
+					...Object.fromEntries(response.headers.entries()),
+					'content-type': 'application/json',
+				},
+			});
+		}
+
+		return response;
 	};
 
 	electron.protocol.registerSchemesAsPrivileged([

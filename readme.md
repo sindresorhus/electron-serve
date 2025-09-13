@@ -118,6 +118,10 @@ ES modules (ES2015+ modules) work out of the box. JavaScript files are served wi
 </script>
 ```
 
+### Source maps support
+
+Source maps are fully supported for debugging. `.map` files are served with the correct MIME type, enabling Chrome DevTools to load them properly for debugging minified code.
+
 ### Relative `require()` paths
 
 Since files are served via a custom protocol, Node.js `require()` calls with relative paths won't work as expected. Use `<script src="...">` tags, bundlers like Webpack, or `<script>require('./file.js')</script>` instead of `<script src="./file.js">`.

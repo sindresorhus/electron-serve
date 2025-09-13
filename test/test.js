@@ -101,3 +101,15 @@ test('supports ES modules', async t => {
 	await client.waitUntilTextExists('h1', 'ES module loaded successfully', 5000);
 	t.pass();
 });
+
+test('serves source maps with correct MIME type', async t => {
+	t.context.spectron = new Application({
+		path: electron,
+		args: ['fixture-sourcemap.js'],
+	});
+	await t.context.spectron.start();
+	const {client} = t.context.spectron;
+	await client.waitUntilWindowLoaded();
+	await client.waitUntilTextExists('h1', 'Source map test loaded', 5000);
+	t.pass();
+});

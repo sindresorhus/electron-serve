@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": ["script.original.js"],
+  "names": ["test", "document", "getElementById", "textContent"],
+  "mappings": "AACA,SAASA,QACPC,SAASC,eAAe,UAAUC,YAAc,yBAGlDH",
+  "file": "script.js",
+  "sourcesContent": ["// Original readable source\nfunction test() {\n    document.getElementById('result').textContent = 'Source map test loaded';\n}\n\ntest();\n"]
+}
