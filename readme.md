@@ -10,7 +10,7 @@ Normally you would just use `win.loadURL('file://…')`, but that doesn't work w
 npm install electron-serve
 ```
 
-*Requires Electron 30 or later.*
+*Requires Electron 37 or later.*
 
 ## Usage
 

@@ -5,7 +5,30 @@ const loadUrl = serve({directory: import.meta.dirname});
 
 let mainWindow;
 
-app.on('ready', () => {
-	mainWindow = new BrowserWindow();
-	loadUrl(mainWindow);
+app.on('ready', async () => {
+	mainWindow = new BrowserWindow({
+		webPreferences: {
+			contextIsolation: false,
+			nodeIntegration: true,
+		},
+		show: false,
+	});
+
+	await loadUrl(mainWindow);
+
+	// Wait for page to load and log content to stdout
+	mainWindow.webContents.on('did-finish-load', async () => {
+		try {
+			const h1Text = await mainWindow.webContents.executeJavaScript(`
+				const h1 = document.querySelector('h1');
+				return h1 ? h1.textContent : null;
+			`);
+
+			if (h1Text) {
+				process.stdout.write(h1Text + '\n');
+			}
+		} catch (error) {
+			console.error('Test helper error:', error);
+		}
+	});
 });

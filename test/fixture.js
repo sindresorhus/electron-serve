@@ -9,6 +9,9 @@ let mainWindow;
 (async () => {
 	await app.whenReady();
 
-	mainWindow = new BrowserWindow();
-	loadUrl(mainWindow);
+	mainWindow = new BrowserWindow({
+		show: false,
+	});
+
+	await loadUrl(mainWindow);
 })();

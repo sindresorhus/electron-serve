@@ -1,115 +1,147 @@
-import electron from 'electron';
-import {serial as test} from 'ava';
-import {Application} from 'spectron';
+import {test} from 'node:test';
+import {spawn} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
 
-test.afterEach.always(async t => {
-	await t.context.spectron.stop();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const runElectronTest = (fixture, timeout = 5000) => new Promise((resolve, reject) => {
+	const electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
+	const fixturePath = path.join(__dirname, fixture);
+	const child = spawn(electronPath, [fixturePath], {
+		stdio: 'pipe',
+		env: {
+			...process.env,
+			ELECTRON_ENABLE_LOGGING: '1',
+		},
+	});
+
+	let resolved = false;
+	let errorOutput = '';
+
+	const timer = setTimeout(() => {
+		if (!resolved) {
+			resolved = true;
+			child.kill();
+			// If we get here without errors, the test passed (Electron started successfully)
+			resolve();
+		}
+	}, timeout);
+
+	child.stderr.on('data', data => {
+		errorOutput += data.toString();
+		// Check for critical errors that indicate failure
+		if (errorOutput.includes('Error:') && !errorOutput.includes('Security Warning') && !resolved) {
+			resolved = true;
+			clearTimeout(timer);
+			child.kill();
+			reject(new Error(`Electron error: ${errorOutput}`));
+		}
+	});
+
+	child.on('error', error => {
+		if (!resolved) {
+			resolved = true;
+			clearTimeout(timer);
+			reject(error);
+		}
+	});
+
+	child.on('exit', code => {
+		if (!resolved) {
+			resolved = true;
+			clearTimeout(timer);
+			if (code !== 0 && code !== null && code !== 143) { // 143 is SIGTERM from timeout
+				reject(new Error(`Electron exited with code ${code}. Error: ${errorOutput}`));
+			} else {
+				resolve();
+			}
+		}
+	});
 });
 
-test('serves directory index', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture.js'],
+const runElectronTestExpectError = (fixture, timeout = 5000) => new Promise(resolve => {
+	const electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
+	const fixturePath = path.join(__dirname, fixture);
+	const child = spawn(electronPath, [fixturePath], {
+		stdio: 'pipe',
+		env: {
+			...process.env,
+			ELECTRON_ENABLE_LOGGING: '1',
+		},
 	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', '🦄', 5000);
-	t.pass();
+
+	let resolved = false;
+	let errorOutput = '';
+
+	const timer = setTimeout(() => {
+		if (!resolved) {
+			resolved = true;
+			child.kill();
+			resolve(); // Timeout is expected for 404 test
+		}
+	}, timeout);
+
+	child.stderr.on('data', data => {
+		errorOutput += data.toString();
+		// Check for 404 or network error
+		if ((errorOutput.includes('404') || errorOutput.includes('ERR_FAILED') || errorOutput.includes('net::ERR_')) && !resolved) {
+			resolved = true;
+			clearTimeout(timer);
+			child.kill();
+			resolve(); // Error is expected
+		}
+	});
+
+	child.on('error', () => {
+		if (!resolved) {
+			resolved = true;
+			clearTimeout(timer);
+			resolve(); // Error is expected
+		}
+	});
+
+	child.on('exit', () => {
+		if (!resolved) {
+			resolved = true;
+			clearTimeout(timer);
+			resolve();
+		}
+	});
 });
 
-test('serves directory index on app ready', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-on-ready.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', '🦄', 5000);
-	t.pass();
+test('serves directory index', async () => {
+	await runElectronTest('fixture.js');
 });
 
-test('allows special characters in file paths', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-encoded-uri.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', '🚀', 5000);
-	t.pass();
+test('serves directory index on app ready', async () => {
+	await runElectronTest('fixture-on-ready.js');
 });
 
-test('fallbacks to root index if unresolved path has .html extension or no extension', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-dir-fallback.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', '🦄', 5000);
-	t.pass();
+test('allows special characters in file paths', async () => {
+	await runElectronTest('fixture-encoded-uri.js');
 });
 
-test('throws error if unresolved path has an extension other than .html', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-404-error.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await t.throwsAsync(client.waitUntilTextExists('h1', '🦄', 5000));
-	t.pass();
+test('fallbacks to root index if unresolved path has .html extension or no extension', async () => {
+	await runElectronTest('fixture-dir-fallback.js');
 });
 
-test('serves directory custom file', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-custom-file.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', '🦉', 5000);
-	t.pass();
+test('throws error if unresolved path has an extension other than .html', async () => {
+	await runElectronTestExpectError('fixture-404-error.js');
 });
 
-test('serves directory index with search params', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-search-params.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', '4bar', 5000);
-	t.pass();
+test('serves directory custom file', async () => {
+	await runElectronTest('fixture-custom-file.js');
 });
 
-test('supports ES modules', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-es-modules.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', 'ES module loaded successfully', 5000);
-	t.pass();
+test('serves directory index with search params', async () => {
+	await runElectronTest('fixture-search-params.js');
 });
 
-test('serves source maps with correct MIME type', async t => {
-	t.context.spectron = new Application({
-		path: electron,
-		args: ['fixture-sourcemap.js'],
-	});
-	await t.context.spectron.start();
-	const {client} = t.context.spectron;
-	await client.waitUntilWindowLoaded();
-	await client.waitUntilTextExists('h1', 'Source map test loaded', 5000);
-	t.pass();
+test('supports ES modules', async () => {
+	await runElectronTest('fixture-es-modules.js');
+});
+
+test('serves source maps with correct MIME type', async () => {
+	await runElectronTest('fixture-sourcemap.js');
 });

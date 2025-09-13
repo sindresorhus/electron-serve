@@ -2,14 +2,14 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+	</head>
+	<body>
+		<h1 id="params"></h1>
 		<script>
 			const urlParams = new URLSearchParams(window.location.search);
 			const id = urlParams.get('id');
 			const foo = urlParams.get('foo');
 			document.getElementById('params').innerHTML = `${id}${foo}`;
 		</script>
-	</head>
-	<body>
-		<h1 id="params"></h1>
 	</body>
 </html>
