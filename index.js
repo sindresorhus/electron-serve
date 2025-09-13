@@ -75,6 +75,8 @@ export default function electronServe(options = {}) {
 				allowServiceWorkers: true,
 				supportFetchAPI: true,
 				corsEnabled: options.isCorsEnabled,
+				stream: true,
+				codeCache: true,
 			},
 		},
 	]);
